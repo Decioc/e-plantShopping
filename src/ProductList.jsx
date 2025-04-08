@@ -257,6 +257,7 @@ function ProductList({ onHomeClick }) {
     const handleContinueShopping = (e) => {
         e.preventDefault();
         setShowCart(false);
+        setAddedToCart({}); // Reset addedToCart when continuing shopping
     };
 
     const [addedToCart, setAddedToCart] = useState({});
@@ -302,7 +303,7 @@ function ProductList({ onHomeClick }) {
                             <div className="product-description">{plant.description}</div>
                             <div className="product-cost">{plant.cost}</div>
                             {/*Similarly like the above plant.name show other details like description and cost*/}
-                            <button  className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                            <button  className={`product-button ${addedToCart[plant.name] ? 'added-to-cart' : ''}`} onClick={() => handleAddToCart(plant)}  disabled={addedToCart[plant.name]}> {addedToCart[plant.name] ? "Added to Cart" : "Add to Cart"}</button>
                         </div>
                     ))}
                 </div>
