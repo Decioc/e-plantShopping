@@ -1,6 +1,6 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch,useSelector} from 'react-redux';
-import { addItem } from './CartSlice';
+import { addItem, removeItem } from './CartSlice';
 import CartItem from './CartItem';
 import './ProductList.css'
 
@@ -247,6 +247,14 @@ function ProductList() {
      }));
   };
 
+     const handleRemoveFromCart = (productName) => {
+       dispatch(removeItem({ name: productName }));
+       setAddedToCart(prevState => ({
+           ...prevState,
+           [productName]: false, // Re-enable the button for the removed item
+       }));
+   };
+
    const handleCartClick = (e) => {
     e.preventDefault();
     setShowCart(true); // Set showCart to true when cart icon is clicked
@@ -310,7 +318,7 @@ const handlePlantsClick = (e) => {
         <div className="product-grid">
 {plantsArray.map((category, index) => (
     <div key={index}>
-        <h1><div>{category.category}</div></h1>
+        <h1 className="plantname_heading"><div className="plant_heading">{category.category}</div></h1>
         <div className="product-list">
             {category.plants.map((plant, plantIndex) => (
             <div className="product-card" key={plantIndex}>
@@ -336,7 +344,7 @@ const handlePlantsClick = (e) => {
 
         </div>
  ) :  (
-    <CartItem onContinueShopping={handleContinueShopping}/>
+    <CartItem onContinueShopping={handleContinueShopping} onRemoveItem={handleRemoveFromCart}/>
 )}
     </div>
     );
